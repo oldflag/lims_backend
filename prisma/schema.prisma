@@ -1,0 +1,313 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// user account table
+model User {
+  id   String @id @default(uuid())
+  name  String
+  email String  @unique
+  role  Role  @default(BASIC)
+  active Boolean @default(true)
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  lastLogin  DateTime? 
+  password  String
+}
+
+enum Role {
+  BASIC
+  USER
+  MANAGER
+  ADMIN
+}
+
+// Collaborator table
+model Collaborator {
+  id   String @id @default(uuid())
+  name  String 
+  contactName String?
+  contactEmail String?
+  contactPhone String?
+  note String?
+  url String?
+  active Boolean @default(true) 
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  donors Donor[]
+  projects Project[]
+}
+
+// Donor table
+model Donor {
+  id   String @id @default(uuid()) 
+  name  String 
+  age String?
+  sex String?
+  ancestry String?
+  species String?
+  status String? 
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  metadata Json?
+  collaborator   Collaborator   @relation(fields: [collaboratorId], references: [id])
+  collaboratorId String
+  specimens Specimen[]
+}
+
+// Specimen table
+model Specimen {
+  id   String @id @default(uuid()) 
+  name  String 
+  species String?
+  tissue String?
+  tissue_amount String?
+  tissue_amount_unit String?
+  receipt_date DateTime  @db.Timestamptz(0) @default(now()) 
+  uberon_id String?
+  qc_note String?
+  qc_date String?
+  collection_date DateTime? @db.Timestamptz(0)
+  received_cell_count String?
+  cell_count_result String?
+  nuclei_count_result String?
+  freeze_thaw String?
+  last_frozen_date DateTime? @db.Timestamptz(0)
+  memo String?
+  storage_condition String?
+  createdAt  DateTime  @db.Timestamptz(0) @default(now())
+  metadata Json?
+  donor   Donor?   @relation(fields: [donorId], references: [id])
+  donorId String?
+  samples Sample[]
+}
+
+// Project table
+model Project {
+  id   String @id @default(uuid()) 
+  name  String 
+  description String?
+  status String? 
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  metadata Json?
+  collaborator   Collaborator?   @relation(fields: [collaboratorId], references: [id])
+  collaboratorId String?
+  experiments Experiment[]
+}
+
+// Antibody table
+model Antibody {
+  id   String @id @default(uuid()) 
+  name  String 
+  vendor String?
+  cat String?
+  target String?
+  lot String? 
+  status String? 
+  metadata Json?
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  assays Assay[]
+}
+
+// Patn5 table
+model Patn5 {
+  id   String @id @default(uuid()) 
+  name  String 
+  manufacturer String?
+  part String?
+  lot String? 
+  status String? 
+  expiration_date DateTime? @db.Timestamptz(0)
+  metadata Json?
+  createdAt  DateTime @db.Timestamptz(0) @default(now())
+  loadPatn5s LoadPatn5[]
+}
+
+// Patn5 table
+model LoadPatn5 {
+  id   String @id @default(uuid()) 
+  loadName String
+  tubeNum  Int 
+  patn5 Patn5 @relation(fields: [patn5Id], references: [id])
+  patn5Id String
+  dnaInfo String?
+  status String? 
+  expiration_date DateTime? @db.Timestamptz(0)
+  memo String?
+  createdAt  DateTime @db.Timestamptz(0) @default(now())
+}
+
+// Reagents table
+model Reagent {
+  id   String @id @default(uuid()) 
+  name  String 
+  generic_name String?
+  part String?
+  lot String? 
+  status String? 
+  expiration_date DateTime? @db.Timestamptz(0)
+  metadata Json?
+  createdAt  DateTime @db.Timestamptz(0) @default(now())
+}
+
+// Experiment table
+model Experiment {
+  id   String @id @default(uuid()) 
+  name  String 
+  short_description String?
+  long_description String?
+  priority String? 
+  status String? 
+  metadata Json?
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  project   Project?   @relation(fields: [projectId], references: [id])
+  projectId String?
+  assays Assay[]
+}
+
+// Sample table
+model Sample {
+  id   String @id @default(uuid()) 
+  name  String 
+  extract_date DateTime? @db.Timestamptz(0)
+  extract_method String?
+  process_date DateTime? @db.Timestamptz(0)
+  process_method String?
+  nuclei_count String? 
+  nuclei_count_result String? 
+  status String? 
+  metadata Json?
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  specimen   Specimen?   @relation(fields: [specimenId], references: [id])
+  specimenId String?
+  assays Assay[]
+}
+
+//batch table
+model Batch {
+  id   String @id @default(uuid()) 
+  name  String
+  type  String?  
+  priority String? 
+  status String? 
+  metadata Json?
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  assays Assay[]
+}
+
+//sample_barcode table
+model AssayBarcode {
+  id   String @id @default(uuid()) 
+  barcode  String
+  tubeNum String 
+  type  String   
+}
+
+// Assay table
+model Assay {
+  id   String @id @default(uuid()) 
+  sample  Sample? @relation(fields: [sampleId], references: [id])
+  sampleId String?
+  experiment Experiment @relation(fields: [experimentId], references: [id])
+  experimentId String
+  batch Batch @relation(fields: [batchId], references: [id])
+  batchId String
+  numOfNuclei Int? 
+  tubeNum Int
+  barcode String
+  assayType String?
+  beadTime String?
+  loadPatn5Name String?
+  antibody Antibody? @relation(fields: [antibodyId], references: [id])
+  antibodyId String?
+  antibodyConcentration String?
+  antibodyConcUnit String?
+  antibodyVolume String?
+  antibodyVolUnit String? 
+  assayDate DateTime? @db.Timestamptz(0)
+  status String? 
+  metadata Json?
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  ptprep PtPrep?
+  nucleiincubation NucleiIncubation?
+  washandtag WashAndTag?
+  rnart RnaRT?
+}
+
+// PairedTag Prep table
+model PtPrep {
+  id   String @id @default(uuid()) 
+  assay  Assay @relation(fields: [assayId], references: [id])
+  assayId String @unique
+  operator String? 
+  status String? 
+  memo String? 
+  metadata Json?
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  nucleiIncubation  NucleiIncubation @relation(fields: [nucleiIncubationId], references: [id])
+  nucleiIncubationId String @unique
+  washAndTag  WashAndTag @relation(fields: [washAndTagId], references: [id])
+  washAndTagId String @unique
+  rnaRT  RnaRT @relation(fields: [rnaRTId], references: [id])
+  rnaRTId String @unique 
+}
+
+// Nuclei Incubation table
+model NucleiIncubation {
+  id   String @id @default(uuid()) 
+  assay  Assay @relation(fields: [assayId], references: [id])
+  assayId String @unique
+  reagentInfo String?  // TODO: foreign key relateion with reagent group
+  operator String? 
+  status String? 
+  memo String? 
+  metadata Json?
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  completedAt DateTime? @db.Timestamptz(0)
+  ptprep PtPrep?
+}
+
+// WashAndTag table
+model WashAndTag {
+  id   String @id @default(uuid()) 
+  assay  Assay @relation(fields: [assayId], references: [id])
+  assayId String @unique
+  reagentInfo String?  // TODO: foreign key relateion with reagent group
+  operator String? 
+  qcClumps String? 
+  status String? 
+  memo String? 
+  metadata Json?
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  completedAt DateTime? @db.Timestamptz(0)
+  ptprep PtPrep?
+}
+
+// RNA RT table
+model RnaRT {
+  id   String @id @default(uuid()) 
+  assay  Assay @relation(fields: [assayId], references: [id])
+  assayId String @unique
+  reagentInfo String?  // TODO: foreign key relateion with reagent group
+  operator String? 
+  qcClumps String? 
+  status String? 
+  memo String? 
+  metadata Json?
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  completedAt DateTime? @db.Timestamptz(0)
+  ptprep PtPrep?
+}
+
+
+
+
+
+
+
+
