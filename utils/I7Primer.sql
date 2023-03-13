@@ -1,0 +1,18 @@
+INSERT INTO public."I7Primer"( id, "fSeq", "rcSeq", "createdAt")
+VALUES 
+('A001','CGTGAT','ATCACG', NOW()),
+('A002','ACATCG','CGATGT', NOW()),
+('A003','GCCTAA','TTAGGC', NOW()),
+('A004','TGGTCA','TGACCA', NOW()),
+('A005','CACTGT','ACAGTG', NOW()),
+('A006','ATTGGC','GCCAAT', NOW()),
+('A007','GATCTG','CAGATC', NOW()),
+('A008','TCAAGT','ACTTGA', NOW()),
+('A009','CTGATC','GATCAG', NOW()),
+('A010','AAGCTA','TAGCTT', NOW()),
+('A011','GTAGCC','GGCTAC', NOW()),
+('A012','TACAAG','CTTGTA', NOW()),
+('A013','TTGACT','AGTCAA', NOW()),
+('A014','GGAACT','AGTTCC', NOW()),
+('A015','TGACAT','ATGTCA', NOW()),
+('A016','GGACGG','CCGTCC', NOW());

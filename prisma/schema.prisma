@@ -198,6 +198,8 @@ model Batch {
   metadata Json?
   createdAt  DateTime   @db.Timestamptz(0) @default(now())
   assays Assay[]
+  splitPool SplitPool?
+  lysiss Lysis[]
 }
 
 //sample_barcode table
@@ -206,6 +208,26 @@ model AssayBarcode {
   barcode  String
   tubeNum String 
   type  String   
+}
+
+//primer table
+model I7Primer {
+  id   String @id
+  fSeq  String
+  rcSeq String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  rnaLibMultiplexs RnaLibMultiplex[]
+  dnaLibMultiplexs DnaLibMultiplex[]    
+}
+
+//primer table
+model I5Primer {
+  id   String @id 
+  fSeq  String
+  rcSeq String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  rnaLibMultiplexs RnaLibMultiplex[]
+  dnaLibMultiplexs DnaLibMultiplex[]      
 }
 
 // Assay table
@@ -303,6 +325,227 @@ model RnaRT {
   completedAt DateTime? @db.Timestamptz(0)
   ptprep PtPrep?
 }
+
+model SplitPool {
+  id   String @id @default(uuid()) 
+  batch Batch @relation(fields: [batchId], references: [id])
+  batchId String @unique
+  reagentInfo String?  // TODO: foreign key relateion with reagent group
+  spLayout String? //TODO: splitPool > split > plate > barcode : https://gitlab.com/epigenomeus/analysis/pipelines/-/blob/main/config/plate_layout.csv
+  qcClumps String?
+  memo String?
+  status String?
+  operator String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  lysiss Lysis[]
+}
+
+model Lysis {
+  id   String @id @default(uuid())
+  name  String
+  splitPool SplitPool @relation(fields: [splitPoolId], references: [id])
+  splitPoolId String
+  batch Batch @relation(fields: [batchId], references: [id])
+  batchId String
+  quantity String?
+  quantityUnit String?
+  memo String?
+  status String?
+  operator String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  prelibStatus Boolean    @default(false)
+  tdtTailing TdtTailing?
+  linearAmpAnchor LinearAmpAnchor?
+  preAmp PreAmp?
+  doubleSizeSelect DoubleSizeSelect?
+  rnaLibrarys RnaLibrary?
+  dnaLibrarys DnaLibrary?
+  
+}
+
+model TdtTailing{
+  id   String @id @default(uuid())
+  lysis Lysis @relation(fields: [lysisId], references: [id])
+  lysisId String @unique
+  reagentInfo String?  // TODO: foreign key relateion with reagent group
+  memo String?
+  status String?
+  operator String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+}
+
+model LinearAmpAnchor{
+  id   String @id @default(uuid())
+  lysis Lysis @relation(fields: [lysisId], references: [id])
+  lysisId String @unique
+  reagentInfo String?  // TODO: foreign key relateion with reagent group
+  memo String?
+  status String?
+  operator String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+}
+
+model PreAmp{
+  id   String @id @default(uuid())
+  lysis Lysis @relation(fields: [lysisId], references: [id])
+  lysisId String @unique
+  reagentInfo String?  // TODO: foreign key relateion with reagent group
+  memo String?
+  status String?
+  operator String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+}
+
+model DoubleSizeSelect{
+  id   String @id @default(uuid())
+  lysis Lysis @relation(fields: [lysisId], references: [id])
+  lysisId String @unique
+  reagentInfo String?  // TODO: foreign key relateion with reagent group
+  beadsRatio1 String?
+  beadsRatio2 String?
+  qcConcent String?
+  memo String?
+  status String?
+  operator String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+}
+model RnaLibrary{
+  id   String @id @default(uuid())
+  name String
+  lysis Lysis @relation(fields: [lysisId], references: [id])
+  lysisId String @unique
+  memo String?
+  status String?
+  operator String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  rnaSplitEnzyme RnaSplitEnzyme?
+  rnaAdapter RnaAdapter?
+  rnaLibMultiplex RnaLibMultiplex?
+  seqLibrary SeqLibrary?
+}
+
+model RnaSplitEnzyme{
+  id   String @id @default(uuid())
+  rnaLibrary RnaLibrary @relation(fields: [rnaLibraryId], references: [id])
+  rnaLibraryId String @unique
+  reagentInfo String?
+  beadRatio String?
+  memo String?
+  status String?
+  operator String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+}
+
+model RnaAdapter{
+  id   String @id @default(uuid())
+  rnaLibrary RnaLibrary @relation(fields: [rnaLibraryId], references: [id])
+  rnaLibraryId String @unique
+  reagentInfo String?
+  memo String?
+  status String?
+  operator String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+}
+
+model RnaLibMultiplex{
+  id   String @id @default(uuid())
+  rnaLibrary RnaLibrary @relation(fields: [rnaLibraryId], references: [id])
+  rnaLibraryId String @unique
+  reagentInfo String?
+  i7Primer I7Primer? @relation(fields: [i7PrimerId], references: [id])
+  i7PrimerId String?
+  i5Primer I5Primer? @relation(fields: [i5PrimerId], references: [id])
+  i5PrimerId String?
+  beadRatio String?
+  memo String?
+  status String?
+  operator String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+}
+
+model DnaLibrary{
+  id   String @id @default(uuid())
+  name String
+  lysis Lysis @relation(fields: [lysisId], references: [id])
+  lysisId String @unique
+  memo String?
+  status String?
+  operator String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  dnaSplitEnzyme DnaSplitEnzyme?
+  dnaAdapter DnaAdapter?
+  dnaLibMultiplex DnaLibMultiplex?
+  seqLibrary SeqLibrary?
+}
+
+model DnaSplitEnzyme{
+  id   String @id @default(uuid())
+  dnaLibrary DnaLibrary @relation(fields: [dnaLibraryId], references: [id])
+  dnaLibraryId String @unique
+  reagentInfo String?
+  beadRatio String?
+  memo String?
+  status String?
+  operator String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+}
+
+model DnaAdapter{
+  id   String @id @default(uuid())
+  dnaLibrary DnaLibrary @relation(fields: [dnaLibraryId], references: [id])
+  dnaLibraryId String @unique
+  reagentInfo String?
+  memo String?
+  status String?
+  operator String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+}
+
+model DnaLibMultiplex{
+  id   String @id @default(uuid())
+  dnaLibrary DnaLibrary @relation(fields: [dnaLibraryId], references: [id])
+  dnaLibraryId String @unique
+  reagentInfo String?
+  i7Primer I7Primer? @relation(fields: [i7PrimerId], references: [id])
+  i7PrimerId String?
+  i5Primer I5Primer? @relation(fields: [i5PrimerId], references: [id])
+  i5PrimerId String?
+  beadRatio String?
+  memo String?
+  status String?
+  operator String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+}
+
+model SeqRun{
+  id   String @id @default(uuid())
+  name String
+  seqDate DateTime? @db.Timestamptz(0)
+  machine String?
+  memo String?
+  status String?
+  operator String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  seqLibrarys SeqLibrary[]
+}
+model SeqLibrary{
+  id   String @id @default(uuid())
+  name String
+  seqRun SeqRun @relation(fields: [seqRunId], references: [id])
+  seqRunId String
+  libType String
+  dnaLibrary DnaLibrary? @relation(fields: [dnaLibraryId], references: [id])
+  dnaLibraryId String? @unique
+  rnaLibrary RnaLibrary? @relation(fields: [rnaLibraryId], references: [id])
+  rnaLibraryId String? @unique
+  file1 String?
+  file2 String?
+  status String?
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+
+}
+
+
 
 
 
