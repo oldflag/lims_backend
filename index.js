@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import userRouter from './routes/userRouter.js';
+
 import collaboratorRouter from './routes/collaboratorRouter.js';
 import donorRouter from './routes/donorRouter.js';
 import specimenRouter from './routes/specimenRouter.js';
@@ -18,6 +19,24 @@ import ptPrepRouter from './routes/ptPrepRouter.js';
 import nucleiIncubationRouter from './routes/nucleiIncubationRouter.js';
 import washAndTagRouter from './routes/washAndTagRouter.js';
 import rnaRTRouter from './routes/rnaRTRouter.js';
+import splitPoolRouter from './routes/splitPoolRouter.js';
+import lysisRouter from './routes/lysisRouter.js';
+import tdtTailingRouter from './routes/tdtTailingRouter.js';
+import linearAmpAnchorRouter from './routes/linearAmpAnchorRouter.js';
+import preAmpRouter from './routes/preAmpRouter.js';
+import doubleSizeSelectRouter from './routes/doubleSizeSelectRouter.js';
+import rnaLibraryRouter from './routes/rnaLibraryRouter.js';
+import rnaSplitEnzymeRouter from './routes/rnaSplitEnzymeRouter.js';
+import rnaAdapterRouter from './routes/rnaAdapterRouter.js';
+import rnaLibMultiplexRouter from './routes/rnaLibMultiplexRouter.js';
+import dnaLibraryRouter from './routes/dnaLibraryRouter.js';
+import dnaSplitEnzymeRouter from './routes/dnaSplitEnzymeRouter.js';
+import dnaAdapterRouter from './routes/dnaAdapterRouter.js';
+import dnaLibMultiplexRouter from './routes/dnaLibMultiplexRouter.js';
+import seqLibraryRouter from './routes/seqLibraryRouter.js';
+import seqRunRouter from './routes/seqRunRouter.js';
+import i5PrimerRouter from './routes/i5PrimerRouter.js';
+import i7PrimerRouter from './routes/i7PrimerRouter.js';
 
 dotenv.config();
 
@@ -59,6 +78,27 @@ app.use('/ptPrep', ptPrepRouter);
 app.use('/nucleiIncubation', nucleiIncubationRouter);
 app.use('/washAndTag', washAndTagRouter);
 app.use('/rnaRT', rnaRTRouter);
+app.use('/splitPool', splitPoolRouter);
+app.use('/lysis', lysisRouter);
+app.use('/tdtTailing', tdtTailingRouter);
+app.use('/linearAmpAnchor', linearAmpAnchorRouter);
+app.use('/preAmp', preAmpRouter);
+app.use('/doubleSizeSelect', doubleSizeSelectRouter);
+app.use('/rnaLibrary', rnaLibraryRouter);
+app.use('/rnaSplitEnzyme', rnaSplitEnzymeRouter);
+app.use('/rnaAdapter', rnaAdapterRouter);
+app.use('/rnaLibMultiplex', rnaLibMultiplexRouter);
+app.use('/dnaLibrary', dnaLibraryRouter);
+app.use('/dnaSplitEnzyme', dnaSplitEnzymeRouter);
+app.use('/dnaAdapter', dnaAdapterRouter);
+app.use('/dnaLibMultiplex', dnaLibMultiplexRouter);
+app.use('/seqLibrary', seqLibraryRouter);
+app.use('/seqRun', seqRunRouter);
+app.use('/i7Primer', i7PrimerRouter);
+app.use('/i5Primer', i5PrimerRouter);
+
+
+
 app.get('/', (req, res) => res.json({ message: 'Welcome to our API' }));
 app.use((req, res) =>
   res.status(404).json({ success: false, message: 'Not Found' })
