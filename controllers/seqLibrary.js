@@ -12,12 +12,15 @@ export const createOne = tryCatch(async (req, res) => {
 
 export const getAll = tryCatch(async (req, res) => {
   let results = await getSeqLibrarys()
+  // console.log(results)
   let editedResults = !results ? results : results.map(arow =>(
     {
       id: arow.id,
       name: arow.name,
       seqRun_name: arow.seqRun_name,
       libType: arow.libType,
+      batchId: arow.libType.toUpperCase() === 'DNA' ? arow.dnaLibrary_lysis_batchId : arow.rnaLibrary_lysis_batchId,
+      lysis_name: arow.libType.toUpperCase() === 'DNA' ? arow.dnaLibrary_lysis_name : arow.rnaLibrary_lysis_name,
       library_name: arow.libType.toUpperCase() === 'DNA' ? arow.dnaLibrary_name : arow.rnaLibrary_name,
       i7Primer_rcSeq: arow.libType.toUpperCase() === 'DNA' ? arow.dnaLibrary_dnaLibMultiplex_i7Primer_rcSeq : arow.rnaLibrary_rnaLibMultiplex_i7Primer_rcSeq,
       i7Primer_name: arow.libType.toUpperCase() === 'DNA' ? arow.dnaLibrary_dnaLibMultiplex_i7Primer_id : arow.rnaLibrary_rnaLibMultiplex_i7Primer_id,

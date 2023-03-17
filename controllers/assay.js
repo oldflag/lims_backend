@@ -48,6 +48,7 @@ export const createOne = tryCatch(async (req, res) => {
 
 export const getAll = tryCatch(async (req, res) => {
   let results = await getAssays()
+  console.log(results)
   res.status(200).json({ success: true, result: results });
 });
 
