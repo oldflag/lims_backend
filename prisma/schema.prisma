@@ -239,7 +239,7 @@ model Assay {
   experimentId String
   batch Batch @relation(fields: [batchId], references: [id])
   batchId String
-  numOfNuclei Int? 
+  numOfNuclei String? 
   tubeNum Int
   barcode String
   assayType String?
