@@ -37,6 +37,7 @@ import seqLibraryRouter from './routes/seqLibraryRouter.js';
 import seqRunRouter from './routes/seqRunRouter.js';
 import i5PrimerRouter from './routes/i5PrimerRouter.js';
 import i7PrimerRouter from './routes/i7PrimerRouter.js';
+import quoteRouter from './routes/quoteRouter.js';
 
 dotenv.config();
 
@@ -96,8 +97,7 @@ app.use('/seqLibrary', seqLibraryRouter);
 app.use('/seqRun', seqRunRouter);
 app.use('/i7Primer', i7PrimerRouter);
 app.use('/i5Primer', i5PrimerRouter);
-
-
+app.use('/quote', quoteRouter);
 
 app.get('/', (req, res) => res.json({ message: 'Welcome to our API' }));
 app.use((req, res) =>

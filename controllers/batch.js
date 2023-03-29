@@ -1,10 +1,11 @@
-import { createBatch, getBatchs, updateBatch, deleteBatch } from '../lib/batchs.js';
+import { createBatch, getBatchs, updateBatch, deleteBatch, getBatch } from '../lib/batchs.js';
 import tryCatch from './utils/tryCatch.js';
 
 export const createOne = tryCatch(async (req, res) => {
-  const { id, name, type, priority, status, metadata} = req.body;
-  const results = await createBatch({ id, name, type, priority, status, metadata})
-  res.status(200).json({ success: true, result: results });
+  const { id, name, type, priority, status, metadata, quoteId} = req.body;
+  const results = await createBatch({ id, name, type, priority, status, metadata, quoteId})
+  const editedResults = await getBatch(results.id)
+  res.status(200).json({ success: true, result: editedResults });
 });
 
 export const getAll = tryCatch(async (req, res) => {

@@ -27,6 +27,7 @@ enum Role {
   USER
   MANAGER
   ADMIN
+  ACCOUNT
 }
 
 // Collaborator table
@@ -42,6 +43,7 @@ model Collaborator {
   createdAt  DateTime   @db.Timestamptz(0) @default(now())
   donors Donor[]
   projects Project[]
+  quotes Quote[]
 }
 
 // Donor table
@@ -200,6 +202,8 @@ model Batch {
   assays Assay[]
   splitPool SplitPool?
   lysiss Lysis[]
+  quote   Quote?   @relation(fields: [quoteId], references: [id])
+  quoteId String? @unique
 }
 
 //sample_barcode table
@@ -542,6 +546,27 @@ model SeqLibrary{
   file2 String?
   status String?
   createdAt  DateTime   @db.Timestamptz(0) @default(now())
+
+}
+
+
+model Quote{
+  id   String @id @default(uuid())
+  name String
+  collaborator Collaborator @relation(fields: [collaboratorId], references: [id])
+  collaboratorId String
+  quantity String
+  description String
+  poNum String?
+  memo String?
+  quoteDate DateTime? @db.Timestamptz(0)
+  invoiceNum String?
+  confirmNum String?
+  lineNum String?
+  catalogNum String?
+  serialNum String?
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+  batch Batch?
 
 }
 

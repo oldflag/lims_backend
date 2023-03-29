@@ -1,9 +1,15 @@
-import { createCollaborator, getCollaborators, updateCollaborator, deleteCollaborator } from '../lib/collaborators.js';
+import { createCollaborator, getCollaborators, updateCollaborator, deleteCollaborator, createCollaborators } from '../lib/collaborators.js';
 import tryCatch from './utils/tryCatch.js';
 
 export const createOne = tryCatch(async (req, res) => {
   const { id, name, contactName, contactEmail, contactPhone, note, url, active} = req.body;
   const results = await createCollaborator({ id, name, contactName, contactEmail, contactPhone, note, url, active})
+  res.status(200).json({ success: true, result: results });
+});
+
+export const createMany = tryCatch(async (req, res) => {
+  // const { id, name, contactName, contactEmail, contactPhone, note, url, active} = req.body;
+  const results = await createCollaborators(req.body)
   res.status(200).json({ success: true, result: results });
 });
 
