@@ -94,7 +94,8 @@ model Specimen {
 // Project table
 model Project {
   id   String @id @default(uuid()) 
-  name  String 
+  name  String
+  type String? 
   description String?
   status String? 
   createdAt  DateTime   @db.Timestamptz(0) @default(now())
@@ -166,6 +167,7 @@ model Experiment {
   name  String 
   short_description String?
   long_description String?
+  exp_date DateTime? @db.Timestamptz(0)
   priority String? 
   status String? 
   metadata Json?

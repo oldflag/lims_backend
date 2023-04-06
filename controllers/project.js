@@ -2,8 +2,8 @@ import { createProject, getProjects, updateProject, deleteProject, getProject } 
 import tryCatch from './utils/tryCatch.js';
 
 export const createOne = tryCatch(async (req, res) => {
-  const { id, name, description, status, metadata, collaboratorId } = req.body;
-  const results = await createProject({ id, name, description, status, metadata, collaboratorId})
+  const { id, name, type, description, status, metadata, collaboratorId } = req.body;
+  const results = await createProject({ id, name, type, description, status, metadata, collaboratorId})
   const editedResults = await getProject(results.id)
   res.status(200).json({ success: true, result: editedResults });
 });

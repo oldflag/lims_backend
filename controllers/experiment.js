@@ -2,8 +2,8 @@ import { createExperiment, getExperiments, updateExperiment, deleteExperiment, g
 import tryCatch from './utils/tryCatch.js';
 
 export const createOne = tryCatch(async (req, res) => {
-  const { id, name, short_description, long_description, priority, status, metadata, projectId } = req.body;
-  const results = await createExperiment({ id, name, short_description, long_description, priority,status, metadata, projectId})
+  const { id, name, short_description, long_description, exp_date, priority, status, metadata, projectId } = req.body;
+  const results = await createExperiment({ id, name, short_description, long_description, exp_date, priority,status, metadata, projectId})
   const editedResults = await getExperiment(results.id)
   res.status(200).json({ success: true, result: editedResults });
 });
