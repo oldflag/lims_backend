@@ -22,7 +22,8 @@ export const createOne = tryCatch(async (req, res) => {
           storage_condition,
           createdAt,
           metadata,
-          donorId } = req.body;
+          donorId,
+          projectId } = req.body;
   const results = await createSpecimen({  id, 
                                           name, 
                                           species, 
@@ -43,8 +44,10 @@ export const createOne = tryCatch(async (req, res) => {
                                           storage_condition,
                                           createdAt,
                                           metadata,
-                                          donorId})
+                                          donorId,
+                                          projectId})
   const editedResults = await getSpecimen(results.id)
+  console.log(editedResults)
   res.status(200).json({ success: true, result: editedResults });
 });
 

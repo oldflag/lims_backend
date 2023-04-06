@@ -9,7 +9,10 @@ export const createOne = tryCatch(async (req, res) => {
 
 export const createMany = tryCatch(async (req, res) => {
   // const { id, name, contactName, contactEmail, contactPhone, note, url, active} = req.body;
-  const results = await createCollaborators(req.body)
+  let results = await createCollaborators(req.body)
+  if(results.count > 0){
+    results = await getCollaborators()
+  }
   res.status(200).json({ success: true, result: results });
 });
 

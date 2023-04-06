@@ -66,6 +66,8 @@ model Donor {
 model Specimen {
   id   String @id @default(uuid()) 
   name  String 
+  project   Project   @relation(fields: [projectId], references: [id])
+  projectId String 
   species String?
   tissue String?
   tissue_amount String?
@@ -99,6 +101,7 @@ model Project {
   metadata Json?
   collaborator   Collaborator?   @relation(fields: [collaboratorId], references: [id])
   collaboratorId String?
+  specimens Specimen[]
   experiments Experiment[]
 }
 
@@ -178,8 +181,8 @@ model Sample {
   name  String 
   extract_date DateTime? @db.Timestamptz(0)
   extract_method String?
-  process_date DateTime? @db.Timestamptz(0)
-  process_method String?
+  // process_date DateTime? @db.Timestamptz(0)
+  // process_method String?
   nuclei_count String? 
   nuclei_count_result String? 
   status String? 

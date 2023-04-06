@@ -25,7 +25,7 @@ export const register = tryCatch(async (req, res) => {
   });
   const {id} = user;
   const token = jwt.sign({ id, name, emailLowerCase }, process.env.JWT_SECRET, {
-    expiresIn: '1h',
+    expiresIn: '2h',
   });
   res.status(201).json({
     success: true,

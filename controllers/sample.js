@@ -2,8 +2,8 @@ import { createSample, getSamples, updateSample, deleteSample, getSample } from 
 import tryCatch from './utils/tryCatch.js';
 
 export const createOne = tryCatch(async (req, res) => {
-  const { id, name, extract_date, extract_method, process_date,process_method,nuclei_count, nuclei_count_result, status, metadata ,specimenId } = req.body;
-  const results = await createSample({ id, name, extract_date, extract_method, process_date,process_method,nuclei_count, nuclei_count_result, status, metadata ,specimenId})
+  const { id, name, extract_date, extract_method,nuclei_count, nuclei_count_result, status, metadata ,specimenId } = req.body;
+  const results = await createSample({ id, name, extract_date, extract_method, nuclei_count, nuclei_count_result, status, metadata ,specimenId})
   const editedResults = await getSample(results.id)
   res.status(200).json({ success: true, result: editedResults });
 });
