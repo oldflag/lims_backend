@@ -51,7 +51,7 @@ export const login = tryCatch(async (req, res) => {
 
   const { id, name, role } = existedUser;
   const token = jwt.sign({ id, name, emailLowerCase }, process.env.JWT_SECRET, {
-    expiresIn: '1h',
+    expiresIn: '2h',
   });
   res.status(200).json({
     success: true,
