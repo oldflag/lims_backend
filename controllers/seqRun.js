@@ -10,7 +10,23 @@ export const createOne = tryCatch(async (req, res) => {
 
 export const getAll = tryCatch(async (req, res) => {
   let results = await getSeqRuns()
-  res.status(200).json({ success: true, result: results });
+
+  // console.log(JSON.stringify(results));
+
+  let editedResults = !results ? results : results.map(arow =>(
+    {
+      id: arow.id,
+      name: arow.name,
+      seqDate: arow.seqDate,
+      batch_name: arow.seqLibrarys[0].libType === 'DNA' ? arow.seqLibrarys[0].dnaLibrary.lysis.batch.name : arow.seqLibrarys[0].rnaLibrary.lysis.batch.name,
+      machine: arow.machine, 
+      memo: arow.memo,  
+      status: arow.status,
+      createdAt: arow.createdAt,
+    }
+  ))
+
+  res.status(200).json({ success: true, result: editedResults });
 });
 
 export const updateStatus = tryCatch(async (req, res) => {

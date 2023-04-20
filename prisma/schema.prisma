@@ -208,7 +208,7 @@ model Batch {
   splitPool SplitPool?
   lysiss Lysis[]
   quote   Quote?   @relation(fields: [quoteId], references: [id])
-  quoteId String? @unique
+  quoteId String? 
 }
 
 //sample_barcode table
@@ -571,7 +571,7 @@ model Quote{
   catalogNum String?
   serialNum String?
   createdAt  DateTime   @db.Timestamptz(0) @default(now())
-  batch Batch?
+  batch Batch[]
 
 }
 
