@@ -8,4 +8,4 @@
 DROP INDEX "Batch_quoteId_key";
 
 -- AlterTable
-ALTER TABLE "Assay" DROP COLUMN "assayType";
+ALTER TABLE "Assay" DROP COLUMN IF EXISTS "assayType";
