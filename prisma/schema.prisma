@@ -33,7 +33,7 @@ enum Role {
 // Collaborator table
 model Collaborator {
   id   String @id @default(uuid())
-  name  String 
+  name  String @unique
   contactName String?
   contactEmail String?
   contactPhone String?
@@ -49,7 +49,7 @@ model Collaborator {
 // Donor table
 model Donor {
   id   String @id @default(uuid()) 
-  name  String 
+  name  String @unique
   age String?
   sex String?
   ancestry String?
@@ -94,7 +94,7 @@ model Specimen {
 // Project table
 model Project {
   id   String @id @default(uuid()) 
-  name  String
+  name  String @unique
   type String? 
   description String?
   status String? 
@@ -109,7 +109,7 @@ model Project {
 // Antibody table
 model Antibody {
   id   String @id @default(uuid()) 
-  name  String 
+  name  String @unique
   vendor String?
   cat String?
   target String?
@@ -180,7 +180,7 @@ model Experiment {
 // Sample table
 model Sample {
   id   String @id @default(uuid()) 
-  name  String 
+  name  String @unique
   extract_date DateTime? @db.Timestamptz(0)
   extract_method String?
   // process_date DateTime? @db.Timestamptz(0)

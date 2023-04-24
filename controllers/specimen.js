@@ -1,4 +1,4 @@
-import { createSpecimen, getSpecimens, updateSpecimen, deleteSpecimen, getSpecimen } from '../lib/specimens.js';
+import { createSpecimen, getSpecimens, updateSpecimen, updateWithSamples, deleteSpecimen, getSpecimen } from '../lib/specimens.js';
 import tryCatch from './utils/tryCatch.js';
 
 export const createOne = tryCatch(async (req, res) => {
@@ -59,6 +59,12 @@ export const getAll = tryCatch(async (req, res) => {
 export const updateStatus = tryCatch(async (req, res) => {
   await updateSpecimen(req.params.Id, req.body);
   res.status(200).json({ success: true, result: { id: req.params.Id } });
+});
+
+export const updateRelatedSamples = tryCatch(async (req, res) => {
+  let results = await updateWithSamples(req.params.Id, req.body);
+  console.log(results)
+  res.status(200).json({ success: true, result: { id: req.params.Id } }); 
 });
 
 export const deleteOne = tryCatch(async (req, res) => {
