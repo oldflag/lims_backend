@@ -198,7 +198,7 @@ model Sample {
 //batch table
 model Batch {
   id   String @id @default(uuid()) 
-  name  String
+  name  String @unique
   type  String?  
   priority String? 
   status String? 
