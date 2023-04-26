@@ -557,7 +557,7 @@ model SeqLibrary{
 
 model Quote{
   id   String @id @default(uuid())
-  name String
+  name String @unique
   collaborator Collaborator @relation(fields: [collaboratorId], references: [id])
   collaboratorId String
   quantity String
