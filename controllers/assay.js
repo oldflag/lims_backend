@@ -1,4 +1,4 @@
-import { createAssay, getAssays, updateAssay, deleteAssay, getAssay } from '../lib/assays.js';
+import { createAssay, getAssays, updateAssay, deleteAssay, getAssay, importAssay } from '../lib/assays.js';
 import tryCatch from './utils/tryCatch.js';
 
 export const createOne = tryCatch(async (req, res) => {
@@ -44,6 +44,12 @@ export const createOne = tryCatch(async (req, res) => {
   })
   const editedResults = await getAssay(results.id)
   res.status(200).json({ success: true, result: editedResults });
+});
+
+export const importOne = tryCatch(async (req, res) => {
+
+  const results = await importAssay(req.body)
+  res.status(200).json({ success: true, result: results });
 });
 
 export const getAll = tryCatch(async (req, res) => {
