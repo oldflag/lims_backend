@@ -8,7 +8,9 @@
     "start-prod": "node index.js",
     "start-dev": "nodemon index.js"
   },
-  "keywords": ["lims"],
+  "keywords": [
+    "lims"
+  ],
   "author": "Hun Ki Lim",
   "license": "ISC",
   "devDependencies": {
@@ -16,6 +18,8 @@
     "prisma": "^4.10.0"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.321.1",
+    "@aws-sdk/s3-request-presigner": "^3.321.1",
     "@prisma/client": "^4.10.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",

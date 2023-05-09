@@ -47,7 +47,7 @@ export const createOne = tryCatch(async (req, res) => {
                                           donorId,
                                           projectId})
   const editedResults = await getSpecimen(results.id)
-  console.log(editedResults)
+  // console.log(editedResults)
   res.status(200).json({ success: true, result: editedResults });
 });
 

@@ -431,6 +431,7 @@ model RnaLibrary{
   rnaAdapter RnaAdapter?
   rnaLibMultiplex RnaLibMultiplex?
   seqLibrary SeqLibrary?
+  tapeStation TapeStation[]
 }
 
 model RnaSplitEnzyme{
@@ -485,6 +486,7 @@ model DnaLibrary{
   dnaAdapter DnaAdapter?
   dnaLibMultiplex DnaLibMultiplex?
   seqLibrary SeqLibrary?
+  tapeStation TapeStation[]
 }
 
 model DnaSplitEnzyme{
@@ -575,6 +577,20 @@ model Quote{
 
 }
 
+model TapeStation{
+  id   String @id @default(uuid())
+  name String
+  libType String
+  dnaLibrary DnaLibrary? @relation(fields: [dnaLibraryId], references: [id])
+  dnaLibraryId String?
+  rnaLibrary RnaLibrary? @relation(fields: [rnaLibraryId], references: [id])
+  rnaLibraryId String?
+  resultFile String?
+  status String?
+  operator String
+  createdAt  DateTime   @db.Timestamptz(0) @default(now())
+
+}
 
 
 
