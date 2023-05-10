@@ -30,8 +30,9 @@ export const createOne = tryCatch(async (req, res) => {
 
 export const getAll = tryCatch(async (req, res) => {
   let results = await getTapeStations()
-  
-  if (results){
+  console.log(results)
+
+  if (results.length > 0){
 
     for ( let aRow of results) {
     // aRow.resultUrl = await getObjectSignedUrl(aRow.resultFile)
