@@ -30,6 +30,7 @@ export const createOne = tryCatch(async (req, res) => {
 
 export const getAll = tryCatch(async (req, res) => {
   let results = await getTapeStations()
+   
   console.log(results)
 
   if (results.length > 0){
