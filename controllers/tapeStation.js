@@ -31,10 +31,15 @@ export const createOne = tryCatch(async (req, res) => {
 export const getAll = tryCatch(async (req, res) => {
   let results = await getTapeStations()
   
-  for ( let aRow of results) {
+  if (results){
+
+    for ( let aRow of results) {
     // aRow.resultUrl = await getObjectSignedUrl(aRow.resultFile)
     aRow.resultUrl = aRow.resultFile
   }
+
+  }
+  
   // console.log(results)
   let editedResults = !results ? results : results.map(aRow =>(
     {
