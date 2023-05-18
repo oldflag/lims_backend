@@ -430,7 +430,7 @@ model RnaLibrary{
   rnaSplitEnzyme RnaSplitEnzyme?
   rnaAdapter RnaAdapter?
   rnaLibMultiplex RnaLibMultiplex?
-  seqLibrary SeqLibrary?
+  seqLibrary SeqLibrary[]
   tapeStation TapeStation[]
 }
 
@@ -485,7 +485,7 @@ model DnaLibrary{
   dnaSplitEnzyme DnaSplitEnzyme?
   dnaAdapter DnaAdapter?
   dnaLibMultiplex DnaLibMultiplex?
-  seqLibrary SeqLibrary?
+  seqLibrary SeqLibrary[]
   tapeStation TapeStation[]
 }
 
@@ -546,9 +546,9 @@ model SeqLibrary{
   seqRunId String
   libType String
   dnaLibrary DnaLibrary? @relation(fields: [dnaLibraryId], references: [id])
-  dnaLibraryId String? @unique
+  dnaLibraryId String? 
   rnaLibrary RnaLibrary? @relation(fields: [rnaLibraryId], references: [id])
-  rnaLibraryId String? @unique
+  rnaLibraryId String? 
   file1 String?
   file2 String?
   status String?
