@@ -39,7 +39,7 @@ export const login = tryCatch(async (req, res) => {
   const emailLowerCase = email.toLowerCase();
   const existedUser = await getUserByEmail(emailLowerCase);
   
-  if (!existedUser)
+  if (!existedUser || !existedUser?.active)
     return res
       .status(404)
       .json({ success: false, message: 'User does not exist!' });

@@ -14,7 +14,7 @@ export const getAll = tryCatch(async (req, res) => {
 });
 
 export const updateStatus = tryCatch(async (req, res) => {
-  await updateBatch(req.params.Id, req.body);
+  let result = await updateBatch(req.params.Id, req.body);
   res.status(200).json({ success: true, result: { id: req.params.Id } });
 });
 
