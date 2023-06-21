@@ -11,8 +11,6 @@ export const createOne = tryCatch(async (req, res) => {
 export const getAll = tryCatch(async (req, res) => {
   let results = await getSeqRuns()
 
-  console.log(results);
-
   let editedResults = !results ? results : results.map(arow =>(
     {
       id: arow.id,
@@ -25,8 +23,6 @@ export const getAll = tryCatch(async (req, res) => {
       createdAt: arow.createdAt,
     }
   ))
-
-  console.log(editedResults)
 
   res.status(200).json({ success: true, result: editedResults });
 });
