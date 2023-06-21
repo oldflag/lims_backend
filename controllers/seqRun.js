@@ -11,20 +11,22 @@ export const createOne = tryCatch(async (req, res) => {
 export const getAll = tryCatch(async (req, res) => {
   let results = await getSeqRuns()
 
-  // console.log(JSON.stringify(results));
+  console.log(results);
 
   let editedResults = !results ? results : results.map(arow =>(
     {
       id: arow.id,
       name: arow.name,
       seqDate: arow.seqDate,
-      batch_name: arow.seqLibrarys[0].libType === 'DNA' ? arow.seqLibrarys[0].dnaLibrary.lysis.batch.name : arow.seqLibrarys[0].rnaLibrary.lysis.batch.name,
+      batch_name: Array.from(new Set(arow.seqLibrarys.map( aLib => aLib.libType === 'DNA' ? aLib.dnaLibrary.lysis.batch.name : aLib.rnaLibrary.lysis.batch.name))).join(";"),
       machine: arow.machine, 
       memo: arow.memo,  
       status: arow.status,
       createdAt: arow.createdAt,
     }
   ))
+
+  console.log(editedResults)
 
   res.status(200).json({ success: true, result: editedResults });
 });
