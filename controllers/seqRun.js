@@ -5,6 +5,7 @@ export const createOne = tryCatch(async (req, res) => {
   const { id, name, seqDate, machine, memo, operator, status } = req.body;
   const results = await createSeqRun({ id, name, seqDate, machine, memo, operator, status  })
   const editedResults = await getSeqRun(results.id)
+  // console.log(editedResults)
   res.status(200).json({ success: true, result: editedResults });
 });
 
