@@ -216,7 +216,8 @@ model AssayBarcode {
   id   String @id @default(uuid()) 
   barcode  String
   tubeNum String 
-  type  String   
+  type  String
+  protocol String?   
 }
 
 //primer table
@@ -251,7 +252,7 @@ model Assay {
   numOfNuclei String? 
   tubeNum Int
   barcode String
-  // assayType String?
+  assayType String?
   beadTime String?
   loadPatn5Name String?
   antibody Antibody? @relation(fields: [antibodyId], references: [id])
