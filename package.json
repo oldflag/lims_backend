@@ -17,17 +17,17 @@
   "author": "Hun Ki Lim",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "prisma": "^5.1.1"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.321.1",
     "@aws-sdk/s3-request-presigner": "^3.321.1",
-    "@prisma/client": "^4.10.0",
+    "@prisma/client": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "google-auth-library": "^8.7.0",
-    "jsonwebtoken": "^9.0.0",
-    "prisma": "^4.10.0"
+    "jsonwebtoken": "^9.0.0"
   }
 }
