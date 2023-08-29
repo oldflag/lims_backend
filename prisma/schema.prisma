@@ -200,7 +200,8 @@ model Batch {
   id   String @id @default(uuid()) 
   name  String @unique
   type  String?  
-  priority String? 
+  priority String?
+  subProtocol String? 
   status String? 
   metadata Json?
   createdAt  DateTime   @db.Timestamptz(0) @default(now())
@@ -225,6 +226,11 @@ model I7Primer {
   id   String @id
   fSeq  String
   rcSeq String
+  seq3 String?
+  seq4 String?
+  libtype String?    //DNA or RNA
+  subProtocol String? // 10x, ATACT, Cut&Tag
+  protocol String? // Bulk, Droplet, Split&Pool
   createdAt  DateTime   @db.Timestamptz(0) @default(now())
   rnaLibMultiplexs RnaLibMultiplex[]
   dnaLibMultiplexs DnaLibMultiplex[]    
@@ -235,6 +241,11 @@ model I5Primer {
   id   String @id 
   fSeq  String
   rcSeq String
+  seq3 String?
+  seq4 String?
+  libtype String?
+  subProtocol String?
+  protocol String?
   createdAt  DateTime   @db.Timestamptz(0) @default(now())
   rnaLibMultiplexs RnaLibMultiplex[]
   dnaLibMultiplexs DnaLibMultiplex[]      
