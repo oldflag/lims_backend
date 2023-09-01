@@ -1,3 +1,4 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 INSERT INTO public."AssayBarcode"( id, "barcode", "tubeNum", "type", "protocol")
 VALUES 
 (uuid_generate_v4(),'ATC','1','8 Assays', 'Split&Pool'),
@@ -20,6 +21,7 @@ VALUES
 (uuid_generate_v4(),'CGAA','10','12 Assays', 'Split&Pool'),
 (uuid_generate_v4(),'TCTA','11','12 Assays', 'Split&Pool'),
 (uuid_generate_v4(),'GGGC','12','12 Assays', 'Split&Pool');
+
 
 #Droplet 
 INSERT INTO public."AssayBarcode"( id, "barcode", "tubeNum", "type", "protocol")
