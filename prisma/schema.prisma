@@ -262,7 +262,7 @@ model Assay {
   batchId String
   numOfNuclei String? 
   tubeNum Int
-  barcode String
+  barcode String?
   assayType String?
   beadTime String?
   loadPatn5Name String?
